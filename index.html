@@ -7,10 +7,15 @@
   <style>
     body {
       font-family: sans-serif;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      align-items: center;
+      justify-content: center;
       text-align: center;
-      padding: 40px 20px;
-      max-width: 500px;
-      margin: auto;
+      padding: 20px;
+      background-color: #f9f9f9;
     }
 
     h2 {
@@ -22,6 +27,7 @@
       justify-content: center;
       gap: 10px;
       margin-bottom: 20px;
+      transition: opacity 0.6s ease;
     }
 
     .pin-input {
@@ -33,21 +39,42 @@
       border-radius: 8px;
     }
 
-    #secret {
-      max-width: 100%;
-      margin-top: 20px;
-    }
-
     #error {
       color: red;
       margin-top: 10px;
     }
 
-    @media (max-width: 400px) {
+    #successMessage {
+      font-size: 24px;
+      margin-bottom: 20px;
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+
+    #gallery {
+      display: none;
+      flex-direction: row;
+      overflow-x: auto;
+      gap: 10px;
+      max-width: 100%;
+      padding: 10px 0;
+    }
+
+    #gallery img {
+      height: 200px;
+      border-radius: 10px;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 500px) {
       .pin-input {
         width: 40px;
         height: 50px;
         font-size: 24px;
+      }
+
+      #gallery img {
+        height: 150px;
       }
     }
   </style>
@@ -63,7 +90,14 @@
   </div>
 
   <p id="error" style="display:none;">❌ Incorrect PIN. Try again.</p>
-  <img id="secret" src="secret.png" style="display:none;" alt="Secret Image"/>
+  <div id="successMessage">🔓 Unlocked!</div>
+
+  <div id="gallery">
+    <img src="image1.jpg" alt="Image 1"/>
+    <img src="image2.jpg" alt="Image 2"/>
+    <img src="image3.jpg" alt="Image 3"/>
+    <!-- Add more images as needed -->
+  </div>
 
   <script>
     const inputs = [...document.querySelectorAll('.pin-input')];
@@ -71,7 +105,7 @@
 
     inputs.forEach((input, idx) => {
       input.addEventListener('input', () => {
-        input.value = input.value.replace(/\D/, ''); // Only digits
+        input.value = input.value.replace(/\D/, '');
         if (input.value && idx < inputs.length - 1) {
           inputs[idx + 1].focus();
         }
@@ -89,9 +123,15 @@
       const entered = inputs.map(i => i.value).join('');
       if (entered.length === 4) {
         if (entered === correctPin) {
-          document.getElementById('secret').style.display = 'block';
-          document.getElementById('pinBox').remove();
+          // Fade out pin
+          document.getElementById('pinBox').style.opacity = 0;
           document.getElementById('error').style.display = 'none';
+          setTimeout(() => {
+            document.getElementById('pinBox').style.display = 'none';
+            const msg = document.getElementById('successMessage');
+            msg.style.opacity = 1;
+            document.getElementById('gallery').style.display = 'flex';
+          }, 700);
         } else {
           document.getElementById('error').style.display = 'block';
         }
@@ -100,7 +140,6 @@
       }
     }
 
-    // Auto-focus first input on page load
     inputs[0].focus();
   </script>
 </body>
