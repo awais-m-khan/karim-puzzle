@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Unlock the Puzzle</title>
+  <title>You're Invited</title>
   <style>
     * {
       box-sizing: border-box;
@@ -27,6 +27,7 @@
       font-size: 1.4rem;
       margin-bottom: 25px;
       max-width: 90%;
+      transition: opacity 0.5s ease;
     }
 
     .pin-container {
@@ -53,35 +54,44 @@
       margin-top: 8px;
     }
 
-    #gallery {
+    #galleryWrapper {
       display: none;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
+      width: 100%;
+      max-width: 500px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
       margin-top: 20px;
     }
 
-    #gallery img {
-      max-width: 90vw;
-      height: auto;
-      border-radius: 10px;
+    #gallery {
+      display: flex;
+      width: max-content;
     }
 
-    @media (min-width: 600px) {
-      #gallery {
-        flex-direction: row;
-        overflow-x: auto;
+    #gallery img {
+      scroll-snap-align: center;
+      flex-shrink: 0;
+      width: 100%;
+      max-width: 500px;
+      border-radius: 10px;
+      object-fit: contain;
+    }
+
+    @media (max-width: 500px) {
+      .pin-input {
+        font-size: 1.8rem;
+        padding: 12px 0;
       }
 
       #gallery img {
-        height: 200px;
-        max-width: unset;
+        height: auto;
       }
     }
   </style>
 </head>
 <body>
-  <h2>🔐 It's a puzzle – enter the 4-digit code to unlock your surprise</h2>
+  <h2 id="titleText">🔐 It's a puzzle – enter the 4-digit code to unlock your surprise</h2>
 
   <div class="pin-container" id="pinBox">
     <input type="text" maxlength="1" class="pin-input" id="d1" />
@@ -92,10 +102,12 @@
 
   <p id="error" style="display:none;">❌ Incorrect code. Try again.</p>
 
-  <div id="gallery">
-    <img src="image1.png" alt="Image 1">
-    <img src="image2.png" alt="Image 2">
-    <!-- Add/remove images as needed -->
+  <div id="galleryWrapper">
+    <div id="gallery">
+      <img src="image1.png" alt="Invite Image 1">
+      <img src="image2.png" alt="Invite Image 2">
+      <!-- Add more images if needed -->
+    </div>
   </div>
 
   <script>
@@ -124,10 +136,13 @@
         if (entered === correctPin) {
           document.getElementById('error').style.display = 'none';
           document.getElementById('pinBox').style.opacity = 0;
+          document.getElementById('titleText').style.opacity = 0;
 
           setTimeout(() => {
             document.getElementById('pinBox').style.display = 'none';
-            document.getElementById('gallery').style.display = 'flex';
+            document.getElementById('titleText').textContent = "🎉 You're invited!!! Attendance is compulsory";
+            document.getElementById('titleText').style.opacity = 1;
+            document.getElementById('galleryWrapper').style.display = 'block';
           }, 500);
         } else {
           document.getElementById('error').style.display = 'block';
