@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Puzzle Unlock</title>
+  </head>
+  <body style="text-align:center; font-family:sans-serif; margin-top:50px;">
+    <h2>🧩 It's a puzzle – enter the 4-digit code</h2>
+    <input id="pin" type="password" maxlength="4" placeholder="Enter PIN" />
+    <button onclick="check()">Submit</button>
+    <p id="error" style="color:red; display:none;">Wrong code. Try again.</p>
+    <br><br>
+    <img id="secret" src="secret.png" style="display:none; max-width:80%;" />
+    
+    <script>
+      function check() {
+        const pin = document.getElementById('pin').value;
+        if (pin === '1234') {
+          document.getElementById('secret').style.display = 'block';
+          document.getElementById('error').style.display = 'none';
+        } else {
+          document.getElementById('error').style.display = 'block';
+        }
+      }
+    </script>
+  </body>
+</html>
