@@ -1,27 +1,107 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Puzzle Unlock</title>
-  </head>
-  <body style="text-align:center; font-family:sans-serif; margin-top:50px;">
-    <h2>🧩 It's a puzzle – enter the 4-digit code</h2>
-    <input id="pin" type="password" maxlength="4" placeholder="Enter PIN" />
-    <button onclick="check()">Submit</button>
-    <p id="error" style="color:red; display:none;">Wrong code. Try again.</p>
-    <br><br>
-    <img id="secret" src="secret.png" style="display:none; max-width:80%;" />
-    
-    <script>
-      function check() {
-        const pin = document.getElementById('pin').value;
-        if (pin === '1234') {
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Puzzle Unlock</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 40px 20px;
+      max-width: 500px;
+      margin: auto;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+    }
+
+    .pin-container {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .pin-input {
+      width: 50px;
+      height: 60px;
+      font-size: 28px;
+      text-align: center;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+    }
+
+    #secret {
+      max-width: 100%;
+      margin-top: 20px;
+    }
+
+    #error {
+      color: red;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 400px) {
+      .pin-input {
+        width: 40px;
+        height: 50px;
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h2>🧩 It's a puzzle – enter the 4-digit code</h2>
+
+  <div class="pin-container" id="pinBox">
+    <input type="text" maxlength="1" class="pin-input" id="d1" />
+    <input type="text" maxlength="1" class="pin-input" id="d2" />
+    <input type="text" maxlength="1" class="pin-input" id="d3" />
+    <input type="text" maxlength="1" class="pin-input" id="d4" />
+  </div>
+
+  <p id="error" style="display:none;">❌ Incorrect PIN. Try again.</p>
+  <img id="secret" src="secret.png" style="display:none;" alt="Secret Image"/>
+
+  <script>
+    const inputs = [...document.querySelectorAll('.pin-input')];
+    const correctPin = "1234";
+
+    inputs.forEach((input, idx) => {
+      input.addEventListener('input', () => {
+        input.value = input.value.replace(/\D/, ''); // Only digits
+        if (input.value && idx < inputs.length - 1) {
+          inputs[idx + 1].focus();
+        }
+        checkPin();
+      });
+
+      input.addEventListener('keydown', (e) => {
+        if (e.key === "Backspace" && !input.value && idx > 0) {
+          inputs[idx - 1].focus();
+        }
+      });
+    });
+
+    function checkPin() {
+      const entered = inputs.map(i => i.value).join('');
+      if (entered.length === 4) {
+        if (entered === correctPin) {
           document.getElementById('secret').style.display = 'block';
+          document.getElementById('pinBox').remove();
           document.getElementById('error').style.display = 'none';
         } else {
           document.getElementById('error').style.display = 'block';
         }
+      } else {
+        document.getElementById('error').style.display = 'none';
       }
-    </script>
-  </body>
+    }
+
+    // Auto-focus first input on page load
+    inputs[0].focus();
+  </script>
+</body>
 </html>
