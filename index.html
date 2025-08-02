@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Unlock the Puzzle</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: sans-serif;
       margin: 0;
@@ -20,25 +24,24 @@
     }
 
     h2 {
-      font-size: 1.6rem;
+      font-size: 1.4rem;
       margin-bottom: 25px;
+      max-width: 90%;
     }
 
     .pin-container {
       display: flex;
-      justify-content: space-between;
-      width: 100%;
-      max-width: 320px;
+      justify-content: center;
       gap: 10px;
       margin-bottom: 15px;
       transition: opacity 0.5s ease;
     }
 
     .pin-input {
-      flex: 1;
+      width: 50px;
+      height: 60px;
       font-size: 2rem;
       text-align: center;
-      padding: 15px 0;
       border: 2px solid #ccc;
       border-radius: 10px;
       background: white;
@@ -52,32 +55,33 @@
 
     #gallery {
       display: none;
-      flex-direction: row;
-      overflow-x: auto;
+      flex-wrap: wrap;
+      justify-content: center;
       gap: 10px;
-      max-width: 100%;
       margin-top: 20px;
     }
 
     #gallery img {
-      height: 240px;
+      max-width: 90vw;
+      height: auto;
       border-radius: 10px;
-      flex-shrink: 0;
     }
 
-    @media (max-width: 500px) {
-      .pin-input {
-        font-size: 1.8rem;
-        padding: 12px 0;
+    @media (min-width: 600px) {
+      #gallery {
+        flex-direction: row;
+        overflow-x: auto;
       }
+
       #gallery img {
-        height: 180px;
+        height: 200px;
+        max-width: unset;
       }
     }
   </style>
 </head>
 <body>
-  <h2>🔐 Enter the 4-digit code to unlock the surprise</h2>
+  <h2>🔐 It's a puzzle – enter the 4-digit code to unlock your surprise</h2>
 
   <div class="pin-container" id="pinBox">
     <input type="text" maxlength="1" class="pin-input" id="d1" />
@@ -86,12 +90,12 @@
     <input type="text" maxlength="1" class="pin-input" id="d4" />
   </div>
 
-  <p id="error" style="display:none;">❌ That code's not quite right.</p>
+  <p id="error" style="display:none;">❌ Incorrect code. Try again.</p>
 
   <div id="gallery">
-    <img src="image1.jpg" alt="1">
-    <img src="image2.jpg" alt="2">
-    <img src="image3.jpg" alt="3">
+    <img src="image1.jpg" alt="Image 1">
+    <img src="image2.jpg" alt="Image 2">
+    <img src="image3.jpg" alt="Image 3">
     <!-- Add/remove images as needed -->
   </div>
 
