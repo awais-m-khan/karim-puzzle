@@ -189,7 +189,12 @@
 
           setTimeout(() => {
             document.getElementById('pinBox').style.display = 'none';
-            document.getElementById('titleText').textContent = "🎉 You've cracked the code!\nJoin us for a royal celebration at the Halbutt Palace!\nThere will be a BBQ, bouncy castle, and movie!\nAttendance is mandatory.";
+            document.getElementById('titleText').innerHTML = `
+              🎉 <strong>You've cracked the code!</strong> 🎉<br><br>
+              👑 Join us for a royal celebration at <strong>Halbutt Palace</strong>!<br><br>
+              🍔 BBQ  🏰 Bouncy Castle  🎬 Movie Night<br><br>
+              <span style="font-size: 1.4rem;">❤️ Attendance is mandatory ❤️</span>
+            `;
             document.getElementById('titleText').style.opacity = 1;
             document.getElementById('galleryWrapper').style.display = 'block';
           }, 500);
